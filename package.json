@@ -16,9 +16,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -32,6 +29,8 @@
     ]
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "jest-fetch-mock": "^3.0.3"
   }
 }
