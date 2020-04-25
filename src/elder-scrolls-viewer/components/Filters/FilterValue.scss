@@ -1,0 +1,39 @@
+@import '../../../config/config';
+
+.FilterValue {
+  display: flex;
+  position: relative;
+  height: 10px;
+  align-items: center;
+  background-color: $background-color;
+  padding: 5px 10px;
+  border-radius: 15px;
+  margin: 10px 10px 0 0;
+
+  .value {
+    line-height: 1;
+  }
+
+  .remove-button {
+    border: 0;
+    background-color: transparent;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right: -20px;
+    top: -15px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .x-icon {
+      height: 20px;
+      width: 20px;
+
+      path {
+        fill: $secondary-text-color;
+      }
+    }
+  }
+}

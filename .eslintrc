@@ -6,5 +6,10 @@
   ],
   "plugins": [
     "jsx-a11y"
-  ]
+  ],
+  "rules":{
+    "import/extensions": ["error", "never", { "ignorePackages": true, "css": "always" }],
+    "max-len": ["error", { "code": 120, "ignoreComments":  true }],
+    "no-underscore-dangle": "off"
+  }
 }

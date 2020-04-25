@@ -1,0 +1,13 @@
+@import '../../../config/config';
+
+.ImageAndMoreInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: $space-between;
+
+  .view-more {
+    margin-top: $space-between;
+    width: 100%;
+  }
+}

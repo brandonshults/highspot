@@ -1,0 +1,13 @@
+@import '../../../config/config';
+
+.PrimaryInfo {
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    .key {
+      color: $label-color;
+    }
+  }
+}

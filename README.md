@@ -37,9 +37,20 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Attributions
+- The images and data used to display the cards come from https://api.elderscrollslegends.io/.  From the docs at https://docs.elderscrollslegends.io/ they provide the following disclaimer: "The Elder Scrolls, The Elder Scrolls: Legends, ZeniMax, Bethesda, Bethesda Softworks and related logos are registered trademarks or trademarks of ZeniMax Media Inc. This website is not produced, endorsed, supported, or affiliated with ZeniMax Media Inc."
+- The card video and its fallback image come from https://twitter.com/TheSmaxx/status/1189910703894872064
+- http://colorsafe.co/ was used to generate a high-contrast color palette
+- The loading spinner comes from https://loading.io/
+- The stone background, header background, and favicon came from https://legends.bethesda.net/en/news
+
 ## TODO:
-- Explain why comments are jsdoc style.
+- Improve accessibility.  I've used a high-contrast color scheme and verified accessibility with WAVE and the jsx-a11y eslint plugin, but that is a pretty low bar.
+- Add more tests.
 - Re-examine supported browsers.
   - The create-react-app defaults of any browser with more than 0.2% seem reasonable, but maybe bundle sizes can be decreased and performance increased if fewer browsers are supported.
   - The api calls rely on fetch, which isn't polyfilled by babel like other features.  This will have to be changed if support for older browsers is desired.
 - Improve handling of different statuses, the API docs provide a nice set of status codes and explanations.  For now though, when receiving a non-ok status, just throw an error and lump it in with errors thrown by fetch.
+- Deal with unknown actions in the reducer better than just throwing an error.
+- Re-evaluate linting rules, especially where they have been disabled
+- Add caching for the api responses, at least for local development, but also, possibly for offline browsing.

@@ -3,85 +3,122 @@
  * functions and constants that are useful for Highspot's coding challenge rather than trying to be a complete
  * javascript SDK like the ruby and python SDKs listed on elderscrollslegends.io
  */
+import uid from 'uid';
 
 const API_VERSION = 'v1';
 
 const BASE_URL = `https://api.elderscrollslegends.io/${API_VERSION}`;
 
-/**
- * The url
- * @type {string}
- */
-export const CARD_QUERY_URL = `${BASE_URL}/cards`
+export const CARD_QUERY_URL = `${BASE_URL}/cards`;
 
+/**
+ * Condense an object into a querystring and append it to a url.
+ * @param url
+ * @param {PagingParameters} object
+ * @returns {string}
+ */
 function addQueryStringToUrl(url, object) {
-  return `${url}?${Object.entries(object).map(([key, value]) => `${key}=${value}`).join('&')}`
+  return `${url}?${Object.entries(object).map(([key, value]) => `${key}=${value}`).join('&')}`;
 }
 
 /**
- * Given an api url, get the response and either return an object containing an error, or an object containing
- * the cards that were requested, as well as the pagination URLs sent back by the api.
+ * Given an api url, get the response and return information about the results.
  * @param url
- * @returns {Promise<{cards: Array, previousUrl: string, nextUrl: string}|{error: string}>}
+ * @returns {Promise<PaginationPage>}
  */
 async function fetchCardsPage(url) {
+  const id = uid();
+  let cards;
+  let _links;
+  let _totalCount;
+  let error;
+
   try {
     const response = await fetch(url);
     // TODO: Improve handling of different statuses, the API docs provide a nice set of status codes and explanations.
     // For now though, when receiving a non-ok status, just throw an error and lump it in with errors thrown by fetch.
     if (!response.ok) {
-      throw new Error(response.statusText)
+      throw new Error(response.statusText);
     }
-
-    const { cards, _links } = await response.json();
-    return {
-      cards,
-      previousUrl: _links?.prev,
-      nextUrl: _links?.next,
-    }
-
-  } catch (error) {
-    return {
-      error
-    }
+    ({ cards, _links, _totalCount } = await response.json());
+  } catch (ex) {
+    cards = [];
+    _links = {
+      previousUrl: undefined,
+      nextUrl: undefined,
+    };
+    _totalCount = 0;
+    error = ex;
   }
+
+  return {
+    cards,
+    url,
+    previousUrl: _links?.prev,
+    nextUrl: _links?.next,
+    shouldIgnore: false,
+    _totalCount,
+    error,
+    id,
+  };
 }
 
 /**
- * It's good enough to say that an object represents a cards page if it has a cards array
- * @param object
- * @returns {boolean}
+ * This will produce a generator that generates one page of results each time its "next" method is called.
+ * @param {number} pageSize - The maximum number of cards to return with each call
+ * @param {PagingParameters} parameters - Parameters to pass to the api based on https://docs.elderscrollslegends.io/#api_v1cards_list
+ * @param {function} setIsFetching - For communicating when the request is still pending.
+ * @returns {AsyncGenerator<PaginationPage>}
  */
-export function isCardsPage(object) {
-  return !!(object?.cards && Array.isArray(object.cards));
-}
-
-/**
- * It's good enough to say that an object represents an error if it has a
- * @param object
- * @returns {boolean}
- */
-export function isErrorPage(object) {
-  return !!object?.error;
-}
-
-/**
- *
- * @param pageSize - The maximum number of cards to return with each call
- * @param parameters - A set of parameters to pass to the api based on https://docs.elderscrollslegends.io/#api_v1cards_list
- * @returns {AsyncGenerator<{cards: Array, previousUrl: string, nextUrl: string}|{error: string}, void, *>}
- */
-export async function* getCardsGenerator(pageSize = 20, parameters = {}) {
+// eslint-disable-next-line consistent-return
+async function* makeCardsPageGenerator(pageSize, parameters, setIsFetching) {
   let nextUrl = addQueryStringToUrl(CARD_QUERY_URL, { pageSize, ...parameters });
 
   do {
-    const cardsPage = await fetchCardsPage(nextUrl);
+    setIsFetching(true);
+
+    const cardsPage = await fetchCardsPage(nextUrl); // eslint-disable-line no-await-in-loop
+    setIsFetching(false);
     nextUrl = cardsPage?.nextUrl;
 
-    if(!nextUrl) {
+    if (!nextUrl) {
       return cardsPage;
     }
 
     yield cardsPage;
-  } while(nextUrl)
+  } while (nextUrl);
+}
+
+/**
+ * Make a cards pager that wraps the cards generator and provides information about the pager's lifecycle.
+ *
+ * When calling code creates a new pager it can first use "cancel" to cancel the old one which will set a flag in
+ * the returned page so consuming code can ignore it.  New pagers are created when filters are updated and this
+ * can be used to make sure that a request from the old pager doesn't land after the old results have been cleared.
+ *
+ * getIsFetching lets consuming code know when a request is still pending.
+ * getIsDone lets consuming code know that there are no more pages for this query
+ * @param {number} pageSize
+ * @param {Object.<string, string>} parameters
+ * @returns {CardsPager}
+ */
+export function makeCardsPager(pageSize = 20, parameters = {}) {
+  let shouldIgnore = false;
+  let isFetching = false;
+  let isDone = false;
+  const setIsFetching = (updatedIsFetching) => { isFetching = updatedIsFetching; };
+  const cardsGenerator = makeCardsPageGenerator(pageSize, parameters, setIsFetching);
+
+  return {
+    getIsFetching: () => isFetching,
+    getIsDone: () => isDone,
+    cancel: () => { shouldIgnore = true; },
+    getNextPage: async () => {
+      const cardsPage = await cardsGenerator.next();
+      if (cardsPage.done) {
+        isDone = true;
+      }
+      return { ...cardsPage, shouldIgnore };
+    },
+  };
 }

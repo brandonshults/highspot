@@ -1,0 +1,26 @@
+@import '../../../config/config';
+
+.FieldsList {
+  display: table;
+  margin: 0;
+
+  .description-group {
+    display: table-row;
+
+    dt, dd {
+      display: table-cell;
+      padding-top: 10px;
+    }
+
+    &:first-child {
+      dt, dd {
+        padding-top: 0;
+      }
+    }
+  }
+
+  dt {
+    color: $label-color;
+    padding-right: $space-between;
+  }
+}

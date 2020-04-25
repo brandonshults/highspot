@@ -1,0 +1,22 @@
+$header-height: 135px;
+
+$background-color: #1b1b1b;
+$secondary-background-color: #272121;
+$text-color: #D4D0AB;
+$secondary-text-color: #f9690e;
+$label-color: #F4B350;
+$error-color: #ff6347;
+$action-color: #7BACDD;
+$accent-color: #777;
+
+// These are pretty arbitrary, but should be the source of truth, so changing these should change everything.
+$MEDIUM_BREAKPOINT: 800px;
+$LARGE_BREAKPOINT: 1475px;
+
+$space-between: 10px;  // Keep a consistent spacing between... everything.
+
+@mixin breakpoint($breakpoint) {
+  @media only screen and (min-width: $breakpoint) {
+    @content;
+  }
+}

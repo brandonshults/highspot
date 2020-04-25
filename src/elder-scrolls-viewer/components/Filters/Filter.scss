@@ -1,0 +1,37 @@
+@import '../../../config/config';
+
+.Filter {
+  display: flex;
+  flex-direction: column;
+
+  h3 {
+    color: $label-color;
+    font-size: 20px;
+    margin: 0;
+  }
+
+  .controls {
+    display: flex;
+
+    .filter-input {
+      color: $text-color;
+      padding: 5px 10px;
+      border: 1px solid $action-color;
+      background-color: $secondary-background-color;
+      width: 100%
+    }
+
+    .add-button {
+      white-space: nowrap;
+    }
+  }
+
+  .values-list {
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+}

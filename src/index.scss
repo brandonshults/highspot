@@ -1,0 +1,32 @@
+@import './config/config.scss';
+
+body {
+  color: $text-color;
+  background-color: $background-color;
+  background-image: url('/stone_bg.jpg');
+  background-attachment: fixed;
+  margin: 0;
+  font-family: EB Garamond,Open Sans,sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: $header-height;
+
+  h1, h2, h3, h4, h5 {
+    color: $secondary-text-color;
+  }
+
+  button {
+    color: $action-color;
+    padding: 5px 10px;
+    border: 1px solid $action-color;
+    background-color: $background-color;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: .3;
+      cursor: auto;
+    }
+  }
+}

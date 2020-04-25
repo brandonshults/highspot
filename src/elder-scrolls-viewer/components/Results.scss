@@ -1,0 +1,22 @@
+@import '../../config/config.scss';
+
+// Use flex.  Grid is an option, but flex will do everything that is needed with much wider browser support.
+.Results {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 2000px;
+
+  .CardDisplay {
+    width: calc(100% - #{$space-between*2});
+
+    @include breakpoint($MEDIUM_BREAKPOINT) {
+      width: calc(100%/2 - #{$space-between*2});
+    }
+    
+    @include breakpoint($LARGE_BREAKPOINT) {
+      width: calc(100%/4 - #{$space-between*2});
+    }
+  }
+}

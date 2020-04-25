@@ -1,0 +1,27 @@
+@import '../../../config/config';
+
+.MoreInfo {
+  position: relative;
+  background-color: $secondary-background-color;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+
+  .card-back-video {
+    background-color: $secondary-background-color;
+    width: 100%;
+  }
+
+  .fields-container {
+    box-sizing: border-box;
+    padding: 20px 10px;
+    background-color: rgba($background-color, .9);
+    width: 97%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 3px;
+  }
+}

@@ -8,7 +8,7 @@
 
 /**
  * Just some cards as they were actually returned from the remote api
- * @type {Array<ElderScrollsCard>}
+ * @type {Array<ElderScrollsAPICard>}
  */
 const CARD_STUBS = [
   Object.freeze({
@@ -35,7 +35,7 @@ const CARD_STUBS = [
  * If the page is the only page then there won't be a _links property
  * @param page
  * @param numberOfPages
- * @returns {{}|{_links:ElderScrollsPaginationData}}
+ * @returns {{}|{_links:ElderScrollsAPIPaginationData}}
  */
 function makePaginationStub(page, numberOfPages) {
   const prev = page !== 1 ? 'http://a.url.com' : undefined;
@@ -57,7 +57,7 @@ function makePaginationStub(page, numberOfPages) {
  * Generate some stub data that can be used as a response body to approximate a response from the remote api
  * @param pageSize
  * @param page
- * @return ElderScrollsCardsPage
+ * @return ElderScrollsAPICardsPage
  */
 function makeCardsPageStub({_pageSize, page, numberOfPages}) {
   return {

@@ -1,0 +1,45 @@
+@import '../../config/config.scss';
+
+header {
+  box-sizing: content-box;
+  position: fixed;
+  width: 100%;
+  height: $header-height;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  background: $background-color url('/header2.jpg') no-repeat top right;
+  background-size: cover;
+  border-bottom: 1px solid rgba($action-color, .5);
+  box-shadow: 0 5px 2px 2px rgba($background-color, .8);
+  text-align: center;
+
+  .background-overlay {
+    box-sizing: border-box;
+    display: flex;
+    padding: 20px 20px;
+    flex-direction: column;
+    align-items: center;
+    background: rgba($background-color, .6);
+    height: 100%;
+
+    @include breakpoint($MEDIUM_BREAKPOINT) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  h1 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .filters-and-count {
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,24 @@
+@import "../../../config/config.scss";
+
+.Filters {
+  .main-buttons {
+    display: flex;
+    max-width: 300px;
+    width: 100%;
+    margin-bottom: $space-between;
+
+    button {
+      width: 50%;
+    }
+  }
+}
+
+.filter-modal {
+  h2 {
+    margin: $space-between*2 0;
+  }
+
+  .Filter {
+    margin-bottom: $space-between*2;
+  }
+}
