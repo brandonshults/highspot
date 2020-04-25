@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Developed with the latest LTS version of node (12.16.2) and its bundled npm (6.14.4).  Tested to work with versions as early as node 10.3.0 and npm 6.1.0
+
 ## Available Scripts
 
 In the project directory, you can run:

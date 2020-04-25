@@ -19,6 +19,10 @@
     "eject": "react-scripts eject",
     "lint": "eslint src --ext js --ext jsx"
   },
+  "engines": {
+    "node": "> 10.3.0",
+    "npm": "> 6.1.0"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
