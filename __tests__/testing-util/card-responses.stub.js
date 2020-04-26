@@ -92,3 +92,15 @@ export function makeFetchMock500Response() {
     {status: 500}
   ]
 }
+
+/**
+ * Mock a delayed response.  https://github.com/jefflau/jest-fetch-mock/issues/77#issuecomment-398150472
+ * @param _pageSize
+ * @param page
+ * @param numberOfPages
+ * @returns {Promise<unknown>}
+ */
+export function makeDelayedMockCardResponse({_pageSize = 20, page = 1, numberOfPages = 10}) {
+  const delayResponse = (res, delay) => new Promise((resolve, reject) => setTimeout(() => resolve(res), delay))
+  return delayResponse(makeCardsPageStub({_pageSize, page, numberOfPages }), 1000);
+}
