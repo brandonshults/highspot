@@ -1,4 +1,5 @@
 import React, { useCallback, useContext } from 'react';
+import PropTypes from 'prop-types';
 import XIcon from '../../../icons/XIcon';
 import { GlobalContext } from '../../GlobalContextProvider';
 import './FilterValue.scss';
@@ -18,5 +19,10 @@ function FilterValue({ apiParameter, value }) {
     </li>
   );
 }
+
+FilterValue.propTypes = {
+  apiParameter: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 export default FilterValue;

@@ -17,7 +17,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src --ext js --ext jsx"
+    "lint": "eslint src --ext js --ext jsx",
+    "lint:fix": "eslint src --ext js --ext jsx --fix"
   },
   "engines": {
     "node": "> 10.3.0",

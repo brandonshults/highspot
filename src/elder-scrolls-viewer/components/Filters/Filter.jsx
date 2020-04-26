@@ -20,7 +20,6 @@ function Filter({ displayName, apiParameter, values }) {
     if (inputValue) {
       dispatch(infiniteScrollThunks.makeAddFilterValueThunk(apiParameter, inputValue));
       setInputValue('');
-      console.log(inputRef);
       inputRef.current?.focus(); // eslint-disable-line
     }
   }, [apiParameter, dispatch, infiniteScrollThunks, inputValue, inputRef]);

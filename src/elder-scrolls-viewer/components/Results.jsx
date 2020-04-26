@@ -10,7 +10,7 @@ export default function Results() {
   const { cardsPages } = state;
   const isError = !!cardsPages?.[0]?.error;
   const showEmptyResults = !isError && cardsPages?.[0]?._totalCount === 0;
-  console.log(cardsPages);
+
   return (
     <main className="Results">
       {showEmptyResults

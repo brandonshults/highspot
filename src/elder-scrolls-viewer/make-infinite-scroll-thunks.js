@@ -14,10 +14,9 @@ export default function makeInfiniteScrollThunks(itemsPerPage, queryParameters) 
   /**
    * Get the next page of results, and dispatch the update.  Make sure not to add stale results to the current results.
    * @param dispatch
-   * @param state
    * @returns {Promise<{PaginationPage}>}
    */
-  const fetchNextPaginationPage = async (dispatch, state) => {
+  const fetchNextPaginationPage = async (dispatch) => {
     let page;
     try {
       page = (await cardsPager.getNextPage()).value;
@@ -90,9 +89,9 @@ export default function makeInfiniteScrollThunks(itemsPerPage, queryParameters) 
    * @param state
    * @returns {Promise<ElderScrollsAPICardsPage>}
    */
-  const reachedPagedEndThunk = async (dispatch, state) => {
+  const reachedPagedEndThunk = async (dispatch) => {
     if (!cardsPager.getIsDone() && !cardsPager.getIsFetching()) {
-      await fetchNextPaginationPage(dispatch, state);
+      await fetchNextPaginationPage(dispatch);
     }
   };
 

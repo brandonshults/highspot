@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import Flippable from './Flippable';
 import CardImage from './CardImage';
 import MoreInfo from './MoreInfo';
@@ -22,5 +23,12 @@ function ImageAndMoreInfo({ card }) {
     </section>
   );
 }
+
+ImageAndMoreInfo.propTypes = {
+  card: PropTypes.shape({
+    imageUrl: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default ImageAndMoreInfo;

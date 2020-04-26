@@ -26,6 +26,7 @@ function MoreInfo({ isShown, card }) {
 }
 
 MoreInfo.propTypes = {
+  card: PropTypes.shape({}).isRequired,
   isShown: PropTypes.bool.isRequired,
 };
 

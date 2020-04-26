@@ -15,7 +15,7 @@ import './LoadingIndicator.scss';
  *   ** useContext can not be used here.  It will force re-renders even though the component is memoized. **
  * @type {React.NamedExoticComponent}
  */
-const PagingIndicator = memo(({ dispatch, handleReachedPageEnd, isDonePaging }) => {
+const PagingIndicator = memo(({ dispatch, handleReachedPageEnd }) => {
   const ref = useRef();
   const intersectionObserverRef = useRef();
 
@@ -43,7 +43,6 @@ const PagingIndicator = memo(({ dispatch, handleReachedPageEnd, isDonePaging }) 
 PagingIndicator.propTypes = {
   dispatch: PropTypes.func.isRequired,
   handleReachedPageEnd: PropTypes.func.isRequired,
-  isDonePaging: PropTypes.bool.isRequired,
 };
 
 export default PagingIndicator;

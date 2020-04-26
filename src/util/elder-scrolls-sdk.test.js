@@ -6,7 +6,7 @@
 import fetchMock from 'jest-fetch-mock';
 import makeFetchMockCardResponse, {
   makeDelayedMockCardResponse,
-  makeFetchMock500Response
+  makeFetchMock500Response,
 } from '../../__tests__/testing-util/card-responses.stub';
 import { makeCardsPager, CARD_QUERY_URL } from './elder-scrolls-sdk';
 
