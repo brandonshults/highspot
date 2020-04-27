@@ -5,28 +5,28 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ### Node and Yarn
 This project has been developed with the latest LTS version of node (12.16.2) and yarn 1.13.0.  Node downloads can be found at https://nodejs.org/en/ and yarn v1 installation instructions can be found at https://classic.yarnpkg.com/en/docs/getting-started 
 
-###Install Dependencies
+### Install Dependencies
 Once the project has been cloned and node and yarn are available the dependencies required to run this project can be installed by issuing the command: ```yarn install``` from the project's root directory.
 
-###Run in Development Mode
+### Run in Development Mode
 To run the project for development enter the command: ```yarn start```  This should launch a browser and navigate to the page.  If a browser doesn't automatically open, the project can be found by manually visiting http://localhost:3000/
 
-###Run In Production Mode
+### Run In Production Mode
 To run the project in production mode enter the command ```yarn run start:production``` When the project is available to view, a message will be displayed listing the URL that it will be served from.
  
-##Available Scripts
+## Available Scripts
 In addition to the standard run scripts, there are a number of scripts available to help with the development process
 
-###Test
+### Test
 ```yarn run test``` will run all tests included and start a watcher to re-run any necessary tests as development occurs
 
-###Test With Coverage
+### Test With Coverage
 ```yarn run test:coverage``` will run all tests and provide a coverage report.  It does not start a watcher.
 
-###Lint
+### Lint
 ```yarn run lint``` will check the project to make sure that all files meet a certain threshold of quality.  In particular it will check that style guidelines are followed, that prop-types are present, and provide a small level of accessibility auditing.
 
-###Lint Autofix
+### Lint Autofix
 ```yarn run lint:fix``` will run the linter, but also attempt to fix any errors automatically.  It won't necessarily fix all errors.
 
 ## Attributions
