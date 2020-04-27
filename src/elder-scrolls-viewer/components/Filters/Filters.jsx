@@ -8,6 +8,7 @@ import './Filters.scss';
 export default function Filters() {
   const { filters } = useContext(GlobalContext).state;
   const [isOpen, setIsOpen] = useState(false);
+  const closeFilters = useCallback(() => setIsOpen(false), [setIsOpen]);
   const handleOpenClick = useCallback(() => {
     setIsOpen(!isOpen);
   }, [setIsOpen, isOpen]);
@@ -29,6 +30,7 @@ export default function Filters() {
               apiParameter={apiParameter}
             />
           ))}
+          <button type="button" onClick={closeFilters}>View Results</button>
           <ClearFiltersButton />
         </section>
       </Modal>
