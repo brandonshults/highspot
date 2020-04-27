@@ -56,7 +56,6 @@ async function fetchCardsPage(url) {
     url,
     previousUrl: _links?.prev,
     nextUrl: _links?.next,
-    shouldIgnore: false,
     _totalCount,
     error,
     id,

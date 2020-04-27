@@ -10,25 +10,53 @@
  * Just some cards as they were actually returned from the remote api
  * @type {Array<ElderScrollsAPICard>}
  */
-const CARD_STUBS = [
-  Object.freeze({
-    "name": "Raise Dead",
-    "rarity": "Legendary",
-    "type": "Action",
-    "cost": 2,
-    "set": {
-      "id": "cs",
-      "name": "Core Set",
-      "_self": "https://api.elderscrollslegends.io/v1/sets/cs"
+export const CARD_STUBS = [
+  {
+    name: 'Raise Dead',
+    rarity: 'Legendary',
+    type: 'Action',
+    cost: 2,
+    set: {
+      id: 'cs',
+      name: 'Core Set',
+      _self: 'https://api.elderscrollslegends.io/v1/sets/cs',
     },
-    "collectible": false,
-    "text": "Summon a random creature from each discard pile.",
-    "attributes": ["Endurance"],
-    "unique": false,
-    "imageUrl": "https://images.elderscrollslegends.io/cs/raise_dead.png",
-    "id": "ce7be2e72d6b06a52e50bed01952801ca4ecfade"
-  })
+    collectible: false,
+    text: 'Summon a random creature from each discard pile.',
+    attributes: ['Endurance'],
+    unique: false,
+    imageUrl: 'https://images.elderscrollslegends.io/cs/raise_dead.png',
+    id: 'ce7be2e72d6b06a52e50bed01952801ca4ecfade',
+  },
+  {
+    name: 'Reachman Shaman',
+    rarity: 'Common',
+    type: 'Creature',
+    subtypes: [
+      'Reachman',
+    ],
+    cost: 2,
+    power: 2,
+    health: 2,
+    set: {
+      id: 'cs',
+      name: 'Core Set',
+      _self: 'https://api.elderscrollslegends.io/v1/sets/cs',
+    },
+    collectible: true,
+    soulSummon: 50,
+    soulTrap: 5,
+    text: 'At the start of your turn, give another random friendly creature +1/+1.',
+    attributes: [
+      'Neutral',
+    ],
+    unique: false,
+    imageUrl: 'https://images.elderscrollslegends.io/cs/reachman_shaman.png',
+    id: '15d9c10821d4033fb045ed2cb4599ac76288ac67',
+  },
 ];
+
+export const CARD_WITH_ALL_FIELDS = CARD_STUBS[1];
 
 /**
  * Generate some stub data for the _links property that appears in an ElderScrollsCardPage.
@@ -48,8 +76,8 @@ function makePaginationStub(page, numberOfPages) {
   return {
     _links: {
       ...prev && { prev },
-      ...next && { next }
-    }
+      ...next && { next },
+    },
   };
 }
 
@@ -59,12 +87,12 @@ function makePaginationStub(page, numberOfPages) {
  * @param page
  * @return ElderScrollsAPICardsPage
  */
-function makeCardsPageStub({_pageSize, page, numberOfPages}) {
+function makeCardsPageStub({ _pageSize, page, numberOfPages }) {
   return {
     cards: Array.from(Array(_pageSize), () => CARD_STUBS[0]),
     _pageSize,
     _totalCount: _pageSize * numberOfPages, // No partial pages for now
-    ...makePaginationStub(page, numberOfPages)
+    ...makePaginationStub(page, numberOfPages),
   };
 }
 
@@ -75,11 +103,11 @@ function makeCardsPageStub({_pageSize, page, numberOfPages}) {
  * @param numberOfPages
  * @returns {[string, {status: number}]}
  */
-export default function makeFetchMockCardResponse({_pageSize = 20, page = 1, numberOfPages = 10}) {
+export default function makeFetchMockCardResponse({ _pageSize = 20, page = 1, numberOfPages = 10 }) {
   return [
-    JSON.stringify(makeCardsPageStub({_pageSize, page, numberOfPages })),
-    {status: 200}
-  ]
+    JSON.stringify(makeCardsPageStub({ _pageSize, page, numberOfPages })),
+    { status: 200 },
+  ];
 }
 
 /**
@@ -89,8 +117,8 @@ export default function makeFetchMockCardResponse({_pageSize = 20, page = 1, num
 export function makeFetchMock500Response() {
   return [
     'We had a problem with our server. Please try again later',
-    {status: 500}
-  ]
+    { status: 500 },
+  ];
 }
 
 /**
@@ -100,7 +128,7 @@ export function makeFetchMock500Response() {
  * @param numberOfPages
  * @returns {Promise<unknown>}
  */
-export function makeDelayedMockCardResponse({_pageSize = 20, page = 1, numberOfPages = 10}) {
-  const delayResponse = (res, delay) => new Promise((resolve, reject) => setTimeout(() => resolve(res), delay))
-  return delayResponse(makeCardsPageStub({_pageSize, page, numberOfPages }), 1000);
+export function makeDelayedMockCardResponse({ _pageSize = 20, page = 1, numberOfPages = 10 }) {
+  const delayResponse = (res, delay) => new Promise((resolve) => setTimeout(() => resolve(res), delay));
+  return delayResponse(makeFetchMockCardResponse({ _pageSize, page, numberOfPages }), 500);
 }

@@ -7,8 +7,8 @@ import fetchMock from 'jest-fetch-mock';
 import makeFetchMockCardResponse, {
   makeDelayedMockCardResponse,
   makeFetchMock500Response,
-} from '../../__tests__/testing-util/card-responses.stub';
-import { makeCardsPager, CARD_QUERY_URL } from './elder-scrolls-sdk';
+} from '../../../__tests__/testing-util/card-responses.stub';
+import { makeCardsPager, CARD_QUERY_URL } from '../elder-scrolls-sdk';
 
 const isCardsPage = (page) => Array.isArray(page.cards);
 
@@ -70,5 +70,23 @@ describe('The elder scrolls sdk', () => {
     const cardsPager = makeCardsPager();
     cardsPager.getNextPage();
     expect(cardsPager.getIsFetching()).toBe(true);
+  });
+
+  test('It should be possible to cancel a page request', async () => {
+    fetch.mockResponse(makeDelayedMockCardResponse({ _pageSize: 20, page: 1, numberOfPages: 1 }));
+    const cardsPager = makeCardsPager();
+    const pagePromise = cardsPager.getNextPage();
+    cardsPager.cancel();
+    const page = await pagePromise;
+    expect(page.shouldIgnore).toBe(true);
+  });
+
+  test('The cards pager should report when it is done paging if asked.', async () => {
+    fetch.mockResponse(makeDelayedMockCardResponse({ _pageSize: 20, page: 1, numberOfPages: 1 }));
+    const cardsPager = makeCardsPager();
+    const pagePromise = cardsPager.getNextPage();
+    expect(cardsPager.getIsDone()).toBe(false);
+    await pagePromise;
+    expect(cardsPager.getIsDone()).toBe(true);
   });
 });
