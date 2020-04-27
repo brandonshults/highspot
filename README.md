@@ -37,8 +37,10 @@ In addition to the standard run scripts, there are a number of scripts available
 - The stone background, header background, and favicon came from https://legends.bethesda.net/en/news
 
 ## TODO:
+- Add more filters, status about the filters, and information explaining how the filters work.
 - Improve accessibility.  I've used a high-contrast color scheme and verified accessibility with WAVE and the jsx-a11y eslint plugin, but that is a pretty low bar.
-- Add more tests.
+- Add more tests.  Coverage is pretty light, luckily most of the uncovered code are simple presentation components.
+- Improve performance?  Certainly re-renders could potentially be avoided by separating the context into two separate contexts, in particular state should be in its own context.
 - Re-examine supported browsers.
   - The create-react-app defaults of any browser with more than 0.2% seem reasonable, but maybe bundle sizes can be decreased and performance increased if fewer browsers are supported.
   - The api calls rely on fetch, which isn't polyfilled by babel like other features.  This will have to be changed if support for older browsers is desired.

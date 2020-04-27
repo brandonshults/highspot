@@ -3,10 +3,14 @@ import { makeCardsPager } from '../util/elder-scrolls-sdk';
 import getQueryParamObjectFromFilters from '../util/get-query-param';
 
 /**
- * A factory for thunks.  It's a factory so they can share some minimal state.
+ * A factory for thunks.
+ * A thunk is a function that is dispatched when an action is more complex then just receiving and setting state.
+ * This is a factory specifically so that the thunks can share a cardsPager.
+ * The thunks share the cardsPager in order to compose complex actions such as fetching from a remote api into simple state changes
+ * that may be dispatched to the reducer.
  * @param itemsPerPage
  * @param queryParameters
- * @returns {{makeRemoveFilterValueThunk: (function(*=, *=): removeFilterValueThunk), makeAddFilterValueThunk: (function(*=, *=): addFilterValueThunk), handleReachedPageEnd: handleReachedPageEnd}}
+ * @returns {{makeRemoveFilterValueThunk: (function(string, string): void), makeAddFilterValueThunk: (function(string, string): void), reachedPagedEndThunk: (function(): Promise<ElderScrollsAPICardsPage>), clearFiltersThunk: (function(): Promise<ElderScrollsAPICardsPage>)}}
  */
 export default function makeInfiniteScrollThunks(itemsPerPage, queryParameters) {
   let cardsPager = makeCardsPager(itemsPerPage, queryParameters);
@@ -45,8 +49,9 @@ export default function makeInfiniteScrollThunks(itemsPerPage, queryParameters) 
   };
 
   /**
-   * @param {string} apiParameter - The key of the querystring pair
-   * @param {string} value - The value of the querystring pair
+   * Add a new filter value.
+   * @param {string} apiParameter - The key of the querystring pair as the remote api expects
+   * @param {string} value - The value of the querystring pair is the value to filter for
    * @returns {Function.<Promise>}
    */
   const makeAddFilterValueThunk = (apiParameter, value) => {
@@ -66,6 +71,12 @@ export default function makeInfiniteScrollThunks(itemsPerPage, queryParameters) 
     return addFilterValueThunk;
   };
 
+  /**
+   * Remove a filter value.
+   * @param {string} apiParameter - The key of the querystring pair as the remote api expects
+   * @param {string} value - The value of the querystring pair is the value to filter for
+   * @returns {Function.<Promise>}
+   */
   const makeRemoveFilterValueThunk = (apiParameter, value) => {
     const removeFilterValueThunk = async (dispatch, state) => {
       const filters = state.filters.map((filter) => {
@@ -84,9 +95,9 @@ export default function makeInfiniteScrollThunks(itemsPerPage, queryParameters) 
   };
 
   /**
-   *
+   * A thunk to be dispatched when the user scrolls to the end of the page.  If paging isn't done, and if
+   * the pager isn't currently fetching results, then fetch the next page of results.
    * @param dispatch
-   * @param state
    * @returns {Promise<ElderScrollsAPICardsPage>}
    */
   const reachedPagedEndThunk = async (dispatch) => {
@@ -95,6 +106,12 @@ export default function makeInfiniteScrollThunks(itemsPerPage, queryParameters) 
     }
   };
 
+  /**
+   * Clear all of the filters by setting their values to an empty array.
+   * @param dispatch
+   * @param state
+   * @returns {Promise<void>}
+   */
   const clearFiltersThunk = async (dispatch, state) => {
     const filters = state.filters.map((filter) => ({ ...filter, values: [] }));
     await updateFiltersAndFetch(filters, dispatch, state);
@@ -102,7 +119,7 @@ export default function makeInfiniteScrollThunks(itemsPerPage, queryParameters) 
 
   return {
     makeAddFilterValueThunk,
-    handleReachedPageEnd: reachedPagedEndThunk,
+    reachedPagedEndThunk,
     makeRemoveFilterValueThunk,
     clearFiltersThunk,
   };

@@ -6,7 +6,7 @@ import PagingIndicator from './PagingIndicator';
 
 export default function Page() {
   const { dispatch, infiniteScrollThunks, state: { isDonePaging } } = useContext(GlobalContext);
-  const { handleReachedPageEnd } = infiniteScrollThunks;
+  const { reachedPagedEndThunk } = infiniteScrollThunks;
 
   return (
     <div className="Page">
@@ -15,7 +15,7 @@ export default function Page() {
       {!isDonePaging && (
         <PagingIndicator
           dispatch={dispatch}
-          handleReachedPageEnd={handleReachedPageEnd}
+          reachedPagedEndThunk={reachedPagedEndThunk}
           isDonePaging={isDonePaging}
         />
       )}
